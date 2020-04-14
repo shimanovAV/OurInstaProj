@@ -17,16 +17,23 @@ public class BoardService {
     }
 
     public List<Board> getAllBoards() {
+        //should be findAllBoardsWhereUserId
         return boardRepository.findAll();
     }
 
     public Board addBoard(Board newBoard) {
+        //add to newBoard id of currentUser
         return boardRepository.save(newBoard);
     }
 
     @Transactional
     public int changeBoard(Board newBoard) {
         return boardRepository.updateBoard(newBoard.getId(), newBoard.getName());
+    }
+
+    @Transactional
+    public int changeBoardPicture(Long boardId, String newPictureUrl) {
+        return boardRepository.updateBoardPicture(boardId, newPictureUrl);
     }
 
     public void deleteBoard(Long boardId) {
