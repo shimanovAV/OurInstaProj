@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -26,4 +27,6 @@ public class Board {
     @Column(name = "board_picture")
     private String boardPicture;
 
+    @OneToMany()
+    private List<User> users;
 }
