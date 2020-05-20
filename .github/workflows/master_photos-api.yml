@@ -8,12 +8,6 @@ on:
     branches:
       - master
 
-env:
-AZURE_WEBAPP_NAME: photos-api # set this to your application's name
-AZURE_WEBAPP_PACKAGE_PATH: ${{ github.workspace }} # set this to the path to your web app project
-JAVA_VERSION: '1.8' # set this to the node version to use
-AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.AzureAppService_PublishProfile_92651b42eb2140a5b73c4465660f6ae6 }}
-
 
 jobs:
   build-and-deploy:
@@ -22,15 +16,15 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
-    - name: Set up Java version
+    - name: 'Set up JDK 1.8'
       uses: actions/setup-java@v1
       with:
-        java-version: '8'
+        java-version: '1.8'
 
-    - name: Build with Maven
+    - name: 'Build with Maven'
       run: mvn -B package --file pom.xml
 
-    - name: Deploy to Azure Web App
+    - name: 'Deploy to Azure Web App'
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'photos-api'
