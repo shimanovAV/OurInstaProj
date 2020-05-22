@@ -34,8 +34,9 @@ public class User{
     private String password;
 
     @OneToMany(
-//            mappedBy = "user_id",
+            mappedBy = "userId",
             cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
             orphanRemoval = true
     )
     private List<Board> boards = new ArrayList<>();

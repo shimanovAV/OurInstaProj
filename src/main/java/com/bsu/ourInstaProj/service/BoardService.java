@@ -4,10 +4,12 @@ import com.bsu.ourInstaProj.dao.BoardRepository;
 import com.bsu.ourInstaProj.dao.UserRepository;
 import com.bsu.ourInstaProj.entity.Board;
 import com.bsu.ourInstaProj.entity.User;
+import com.bsu.ourInstaProj.entity.response.UserVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BoardService {
@@ -23,17 +25,21 @@ public class BoardService {
         this.userService = userService;
     }
 
+    @Transactional
     public List<Board> getAllBoards() {
         User user = userService.findCurrentUser();
         return boardRepository.findBoardsByUserId(user.getId());
     }
 
+    @Transactional
     public Board getBoard(Long boardId) {
         return boardRepository.getBoardById(boardId);
     }
 
-    public List<User> getAllUsersByBoardId(Long boardId) {
-        return boardRepository.getBoardById(boardId).getUsers();
+    public List<UserVO> getAllUsersByBoardId(Long boardId) {
+        List<User> users = boardRepository.getBoardById(boardId).getUsers();
+        return users.stream().map(user -> userService.convertToVO(user)).collect(Collectors.toList());
+
     }
 
     public Board addBoard(Board newBoard) {

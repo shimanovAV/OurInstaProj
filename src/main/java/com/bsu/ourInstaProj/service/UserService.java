@@ -3,6 +3,8 @@ package com.bsu.ourInstaProj.service;
 import com.bsu.ourInstaProj.dao.UserRepository;
 import com.bsu.ourInstaProj.entity.User;
 
+import com.bsu.ourInstaProj.entity.response.UserVO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -11,8 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +25,8 @@ public class UserService implements UserDetailsService {
     UserRepository userRepository;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+    private ModelMapper modelMapper = new ModelMapper();
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -46,20 +50,12 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-    public User login(User user) {
-        User userFromDB = userRepository.findByUsername(user.getUsername());
-        PasswordEncoder passwordEnocder = new BCryptPasswordEncoder();
-        if (passwordEnocder.matches(user.getPassword(), userFromDB.getPassword())){
-            return userFromDB;
-        } else {
-            return userRepository.findByUsername("aliko");
-        }
+    @Transactional
+    public UserVO finUserByUsername(String username) {
+        return convertToVO(userRepository.findByUsername(username));
     }
 
-    public User finUserByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
+    @Transactional
     public User findCurrentUser() {
         SecurityContext context = SecurityContextHolder.getContext();
 
@@ -69,6 +65,11 @@ public class UserService implements UserDetailsService {
         } else {
             return userRepository.findByUsername("aliko");
         }
+    }
+
+    public UserVO convertToVO(User user) {
+        UserVO userVO = modelMapper.map(user, UserVO.class);
+        return userVO;
     }
 /* <form method="POST" action="/login">
     <h2>Вход в систему</h2>
