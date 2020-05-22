@@ -28,4 +28,10 @@ CREATE TABLE photo
 );
 
 INSERT INTO user (id, username, password)
-VALUES ('1', 'yulia', '$2a$10$q73DI3Vl0xRajJJvI7La2eOHWvt5u4TYbpNztmw622pt.X1XhzWEe')
+VALUES ('1', 'yulia', '$2a$10$q73DI3Vl0xRajJJvI7La2eOHWvt5u4TYbpNztmw622pt.X1XhzWEe');
+
+INSERT INTO board (id, user_id, name, board_picture)
+VALUES ('1', '1', 'family', 'https://bsulab7shimanovichav.blob.core.windows.net/bs..');
+
+INSERT INTO photo (id, board_id, description, url, creator)
+VALUES ('1', '1', 'My lovely family', 'https://bsulab7shimanovichav.blob.core.windows.net/bs..', 'yulia');

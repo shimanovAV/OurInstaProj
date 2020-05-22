@@ -80,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 httpServletResponse.setStatus(200);
 
                 String login = context.getAuthentication().getName();
-                UserVO user = userService.finUserByUsername(login);
+                UserVO user = userService.findByUsername(login);
 
 
                 System.out.println(user.toString());
