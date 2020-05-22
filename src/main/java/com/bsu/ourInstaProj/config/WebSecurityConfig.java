@@ -1,7 +1,7 @@
 package com.bsu.ourInstaProj.config;
 
 
-import com.bsu.ourInstaProj.entity.User;
+import com.bsu.ourInstaProj.entity.response.UserVO;
 import com.bsu.ourInstaProj.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +20,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 
 @Configuration
 @EnableWebSecurity
@@ -80,17 +79,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 httpServletResponse.setStatus(200);
 
-                httpServletResponse.getWriter().println(context.getAuthentication().getName());
-                httpServletResponse.getWriter().println(context.getAuthentication().getAuthorities());
-
                 String login = context.getAuthentication().getName();
-                User user = userService.finUserByUsername(login);
-                    user.setBoards(new ArrayList<>());
+                UserVO user = userService.finUserByUsername(login);
 
 
-                System.out.println(user);
+                System.out.println(user.toString());
                 httpServletResponse.getWriter().println(user);
-                httpServletResponse.addHeader(context.getAuthentication().getName(), context.getAuthentication().getAuthorities().toString());
             }
         };
     }

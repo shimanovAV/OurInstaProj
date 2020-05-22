@@ -27,11 +27,5 @@ CREATE TABLE photo
   creator            VARCHAR(250) NOT NULL
 );
 
-CREATE TABLE game
-
-
-INSERT INTO bet (name, photo_url)
-VALUES ('Paper', '../../../../assets/Paper.svg'),
-       ('Rock', '../../../../assets/Rock.svg'),
-       ('Scissors', '../../../../assets/Scissors.svg');*/
-
+INSERT INTO user (id, username, password)
+VALUES ('1', 'yulia', '$2a$10$q73DI3Vl0xRajJJvI7La2eOHWvt5u4TYbpNztmw622pt.X1XhzWEe')

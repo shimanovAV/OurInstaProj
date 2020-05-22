@@ -1,6 +1,7 @@
 package com.bsu.ourInstaProj.controller;
 
 import com.bsu.ourInstaProj.entity.User;
+import com.bsu.ourInstaProj.entity.response.UserVO;
 import com.bsu.ourInstaProj.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +25,9 @@ public class UserController {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-
-/*    @RequestMapping(path = {"/login"}, method = RequestMethod.GET)
-    public ResponseEntity<User> signUpUser(@RequestBody User user) {
-        User response = userService.login(user);
-        return new ResponseEntity<>(null, HttpStatus.OK);
-    }*/
-
+    @RequestMapping(path = {"/profile"}, method = RequestMethod.GET)
+    public ResponseEntity<UserVO> getUser() {
+        UserVO userVO = userService.convertToVO(userService.findCurrentUser());
+        return new ResponseEntity<>(userVO, HttpStatus.OK);
+    }
 }
