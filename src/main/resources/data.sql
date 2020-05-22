@@ -27,7 +27,7 @@ CREATE TABLE photo
   creator            VARCHAR(250) NOT NULL
 );
 
-/*CREATE TABLE game
+CREATE TABLE game
 
 
 INSERT INTO bet (name, photo_url)

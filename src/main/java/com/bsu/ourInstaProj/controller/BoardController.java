@@ -21,6 +21,12 @@ public class BoardController {
         this.boardService = boardService;
     }
 
+
+    @RequestMapping("/")
+    public String index() {
+        return "Greetings from Spring Boot!";
+    }
+
     @RequestMapping(path = {"/boards"}, method = RequestMethod.GET)
     public ResponseEntity<BoardResponse> getAllBoards() {
         List<Board> boards = boardService.getAllBoards();
