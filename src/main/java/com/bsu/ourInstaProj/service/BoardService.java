@@ -4,7 +4,9 @@ import com.bsu.ourInstaProj.dao.BoardRepository;
 import com.bsu.ourInstaProj.dao.UserRepository;
 import com.bsu.ourInstaProj.entity.Board;
 import com.bsu.ourInstaProj.entity.User;
+import com.bsu.ourInstaProj.entity.response.BoardVO;
 import com.bsu.ourInstaProj.entity.response.UserVO;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
     private final UserService userService;
+    private ModelMapper modelMapper = new ModelMapper();
 
 
     public BoardService(BoardRepository boardRepository, UserRepository userRepository, UserService userService) {
@@ -26,14 +29,15 @@ public class BoardService {
     }
 
     @Transactional
-    public List<Board> getAllBoards() {
+    public List<BoardVO> getAllBoards() {
         User user = userService.findCurrentUser();
-        return boardRepository.findBoardsByUserId(user.getId());
+        return boardRepository.findBoardsByUserId(user.getId()).stream()
+                .map(board -> convertToVO(board)).collect(Collectors.toList());
     }
 
     @Transactional
-    public Board getBoard(Long boardId) {
-        return boardRepository.getBoardById(boardId);
+    public BoardVO getBoard(Long boardId) {
+        return convertToVO(boardRepository.getBoardById(boardId));
     }
 
     @Transactional
@@ -42,19 +46,18 @@ public class BoardService {
                 .map(user -> userService.convertToVO(user)).collect(Collectors.toList());
     }
 
-    public Board addBoard(Board newBoard) {
-        User user = userService.findCurrentUser();
-        newBoard.setUserId(user.getId());
-        return boardRepository.save(newBoard);
+    public BoardVO addBoard(Board newBoard) {
+        newBoard.setUserId(userService.findCurrentUser().getId());
+        return convertToVO(boardRepository.save(newBoard));
     }
 
     @Transactional
-    public Board addUserToBoard(Long boardId, String username) {
+    public BoardVO addUserToBoard(Long boardId, String username) {
         Board board = boardRepository.getBoardById(boardId);
         List<User> users = board.getUsers();
         users.add(userRepository.findByUsername(username));
         board.setUsers(users);
-        return board;
+        return convertToVO(board);
     }
 
     @Transactional
@@ -77,5 +80,9 @@ public class BoardService {
         List<User> users = board.getUsers();
         users.remove(userRepository.getById(userId));
         board.setUsers(users);
+    }
+
+    public BoardVO convertToVO(Board board) {
+        return modelMapper.map(board, BoardVO.class);
     }
 }

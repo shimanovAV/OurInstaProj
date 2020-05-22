@@ -1,8 +1,8 @@
 package com.bsu.ourInstaProj.controller;
 
 import com.bsu.ourInstaProj.entity.Board;
-import com.bsu.ourInstaProj.entity.User;
 import com.bsu.ourInstaProj.entity.response.BoardResponse;
+import com.bsu.ourInstaProj.entity.response.BoardVO;
 import com.bsu.ourInstaProj.entity.response.UserResponse;
 import com.bsu.ourInstaProj.entity.response.UserVO;
 import com.bsu.ourInstaProj.service.BoardService;
@@ -30,13 +30,13 @@ public class BoardController {
 
     @RequestMapping(path = {"/boards"}, method = RequestMethod.GET)
     public ResponseEntity<BoardResponse> getAllBoards() {
-        List<Board> boards = boardService.getAllBoards();
+        List<BoardVO> boards = boardService.getAllBoards();
         return new ResponseEntity<>(new BoardResponse(boards), HttpStatus.OK);
     }
 
     @RequestMapping(path = {"/board/{boardId}"}, method = RequestMethod.GET)
-    public ResponseEntity<Board> getBoard(final @PathVariable Long boardId) {
-        Board board = boardService.getBoard(boardId);
+    public ResponseEntity<BoardVO> getBoard(final @PathVariable Long boardId) {
+        BoardVO board = boardService.getBoard(boardId);
         return new ResponseEntity<>(board, HttpStatus.OK);
     }
 
@@ -47,13 +47,13 @@ public class BoardController {
     }
 
     @RequestMapping(path = {"/board"}, method = RequestMethod.POST)
-    public ResponseEntity<Board> addBoard(@RequestBody Board newBoard) {
-        Board board = boardService.addBoard(newBoard);
+    public ResponseEntity<BoardVO> addBoard(@RequestBody Board newBoard) {
+        BoardVO board = boardService.addBoard(newBoard);
         return new ResponseEntity<>(board, HttpStatus.OK);
     }
 
     @RequestMapping(path = {"/board/{boardId}"}, method = RequestMethod.DELETE)
-    public ResponseEntity<Board> deleteBoard(final @PathVariable Long boardId) {
+    public ResponseEntity<BoardVO> deleteBoard(final @PathVariable Long boardId) {
         boardService.deleteBoard(boardId);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
@@ -65,9 +65,9 @@ public class BoardController {
     }
 
     @RequestMapping(path = {"/board/{boardId}/user"}, method = RequestMethod.POST)
-    public ResponseEntity<Board> addUserToBoard(final @PathVariable Long boardId,
+    public ResponseEntity<BoardVO> addUserToBoard(final @PathVariable Long boardId,
                                                 @RequestBody String username) {
-        Board board = boardService.addUserToBoard(boardId, username);
+        BoardVO board = boardService.addUserToBoard(boardId, username);
         return new ResponseEntity<>(board, HttpStatus.OK);
     }
 

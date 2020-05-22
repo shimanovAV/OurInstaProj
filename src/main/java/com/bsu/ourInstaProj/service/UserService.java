@@ -27,7 +27,6 @@ public class UserService implements UserDetailsService {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     private ModelMapper modelMapper = new ModelMapper();
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
@@ -68,8 +67,7 @@ public class UserService implements UserDetailsService {
     }
 
     public UserVO convertToVO(User user) {
-        UserVO userVO = modelMapper.map(user, UserVO.class);
-        return userVO;
+        return modelMapper.map(user, UserVO.class);
     }
 /* <form method="POST" action="/login">
     <h2>Вход в систему</h2>
