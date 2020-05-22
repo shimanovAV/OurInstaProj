@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -27,6 +28,9 @@ public class Board {
     @Column(name = "board_picture")
     private String boardPicture;
 
-    @OneToMany()
-    private List<User> users;
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<User> users = new ArrayList<>();
 }
