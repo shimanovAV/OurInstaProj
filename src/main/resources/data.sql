@@ -1,7 +1,14 @@
-/*DROP TABLE IF EXISTS board;
+DROP TABLE IF EXISTS user CASCADE;
+DROP TABLE IF EXISTS board CASCADE;
 DROP TABLE IF EXISTS photo;
 
 
+CREATE TABLE user
+(
+  id                 INT AUTO_INCREMENT PRIMARY KEY,
+  username           VARCHAR(250) NOT NULL,
+  password           VARCHAR(250) NOT NULL
+);
 
 CREATE TABLE board
 (

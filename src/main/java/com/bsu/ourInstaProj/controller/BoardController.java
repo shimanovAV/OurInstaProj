@@ -33,6 +33,12 @@ public class BoardController {
         return new ResponseEntity<>(new BoardResponse(boards), HttpStatus.OK);
     }
 
+    @RequestMapping(path = {"/board/{boardId}"}, method = RequestMethod.GET)
+    public ResponseEntity<Board> getBoard(final @PathVariable Long boardId) {
+        Board board = boardService.getBoard(boardId);
+        return new ResponseEntity<>(board, HttpStatus.OK);
+    }
+
     @RequestMapping(path = {"/board"}, method = RequestMethod.PUT)
     public ResponseEntity<Integer> changeBoard(@RequestBody Board newBoard) {
         Integer success = boardService.changeBoard(newBoard);

@@ -1,7 +1,6 @@
 package com.bsu.ourInstaProj.dao;
 
 import com.bsu.ourInstaProj.entity.Board;
-import com.bsu.ourInstaProj.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,10 +10,7 @@ import java.util.List;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
-   /* @Query("SELECT u FROM User u LEFT JOIN FETCH u.boards b WHERE b.user_id = :id")
-    List<User> findBoardsByUserId(@Param("id") Long id);
-    @Query("SELECT u FROM Board u WHERE u.Id = :id")
-    List<User> findUsersByBoardId(@Param("id") Long id);*/
+    List<Board> findBoardsByUserId(Long userId);
 
     Board getBoardById(Long id);
 

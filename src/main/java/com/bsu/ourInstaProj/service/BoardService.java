@@ -14,16 +14,22 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
 
 
-    public BoardService(BoardRepository boardRepository, UserRepository userRepository) {
+    public BoardService(BoardRepository boardRepository, UserRepository userRepository, UserService userService) {
         this.boardRepository = boardRepository;
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     public List<Board> getAllBoards() {
-        //should be findAllBoardsWhereUserId
-        return boardRepository.findAll();
+        User user = userService.findCurrentUser();
+        return boardRepository.findBoardsByUserId(user.getId());
+    }
+
+    public Board getBoard(Long boardId) {
+        return boardRepository.getBoardById(boardId);
     }
 
     public List<User> getAllUsersByBoardId(Long boardId) {
@@ -31,14 +37,15 @@ public class BoardService {
     }
 
     public Board addBoard(Board newBoard) {
-        //add to newBoard id of currentUser
+        User user = userService.findCurrentUser();
+        newBoard.setUserId(user.getId());
         return boardRepository.save(newBoard);
     }
 
     public Board addUserToBoard(Long boardId, String username) {
         Board board = boardRepository.getBoardById(boardId);
         List<User> users = board.getUsers();
-        users.add(userRepository.getByUsername(username));
+        users.add(userRepository.findByUsername(username));
         board.setUsers(users);
         return board;
     }
@@ -57,7 +64,7 @@ public class BoardService {
         boardRepository.deleteById(boardId);
     }
 
-    public void deleteUserFromBoard(Long boardId,Long userId) {
+    public void deleteUserFromBoard(Long boardId, Long userId) {
         Board board = boardRepository.getBoardById(boardId);
         List<User> users = board.getUsers();
         users.remove(userRepository.getById(userId));
