@@ -6,10 +6,13 @@ import com.bsu.ourInstaProj.service.PhotoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.annotation.MultipartConfig;
 import java.util.List;
 
 @RestController
+@MultipartConfig
 public class PhotoController {
 
     private PhotoService photoService;
@@ -31,9 +34,9 @@ public class PhotoController {
     }
 
     @RequestMapping(path = {"/photo"}, method = RequestMethod.POST)
-    public ResponseEntity<Photo> addPhoto(@RequestBody Photo newPhoto) {
-        Photo photo =  photoService.addPhoto(newPhoto);
-        return new ResponseEntity<>(photo, HttpStatus.OK);
+    public ResponseEntity<String> addPhoto(@RequestParam("photo") MultipartFile newPhoto, @RequestParam("boardId") String boardId) {
+        String photoUrl =  photoService.addPhoto(newPhoto, boardId);
+        return new ResponseEntity<>(photoUrl, HttpStatus.OK);
     }
 
     @RequestMapping(path = {"/photo/{photoId}"}, method = RequestMethod.DELETE)
