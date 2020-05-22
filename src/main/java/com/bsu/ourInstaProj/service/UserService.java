@@ -51,7 +51,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public UserVO finUserByUsername(String username) {
+    public UserVO findByUsername(String username) {
         return convertToVO(userRepository.findByUsername(username));
     }
 

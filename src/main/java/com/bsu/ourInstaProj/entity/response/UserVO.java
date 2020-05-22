@@ -13,8 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserVO {
+    private Long id;
 
     private String username;
-
-    private List<Board> boards = new ArrayList<>();
 }

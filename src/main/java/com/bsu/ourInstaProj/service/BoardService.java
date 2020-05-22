@@ -38,9 +38,8 @@ public class BoardService {
 
     @Transactional
     public List<UserVO> getAllUsersByBoardId(Long boardId) {
-        List<User> users = boardRepository.getBoardById(boardId).getUsers();
-        return users.stream().map(user -> userService.convertToVO(user)).collect(Collectors.toList());
-
+        return boardRepository.getBoardById(boardId).getUsers().stream()
+                .map(user -> userService.convertToVO(user)).collect(Collectors.toList());
     }
 
     public Board addBoard(Board newBoard) {
