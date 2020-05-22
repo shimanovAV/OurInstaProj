@@ -36,6 +36,7 @@ public class BoardService {
         return boardRepository.getBoardById(boardId);
     }
 
+    @Transactional
     public List<UserVO> getAllUsersByBoardId(Long boardId) {
         List<User> users = boardRepository.getBoardById(boardId).getUsers();
         return users.stream().map(user -> userService.convertToVO(user)).collect(Collectors.toList());
@@ -48,6 +49,7 @@ public class BoardService {
         return boardRepository.save(newBoard);
     }
 
+    @Transactional
     public Board addUserToBoard(Long boardId, String username) {
         Board board = boardRepository.getBoardById(boardId);
         List<User> users = board.getUsers();
@@ -70,6 +72,7 @@ public class BoardService {
         boardRepository.deleteById(boardId);
     }
 
+    @Transactional
     public void deleteUserFromBoard(Long boardId, Long userId) {
         Board board = boardRepository.getBoardById(boardId);
         List<User> users = board.getUsers();
