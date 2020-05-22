@@ -19,10 +19,12 @@ public class PhotoService {
 
     private final PhotoRepository photoRepository;
     private final BoardService boardService;
+    private final UserService userService;
 
-    public PhotoService(PhotoRepository photoRepository, BoardService boardService) {
+    public PhotoService(PhotoRepository photoRepository, BoardService boardService, UserService userService) {
         this.photoRepository = photoRepository;
         this.boardService = boardService;
+        this.userService = userService;
     }
 
     public List<Photo> getAllPhotos(Long boardId) {
