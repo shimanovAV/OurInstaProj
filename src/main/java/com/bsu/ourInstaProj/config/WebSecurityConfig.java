@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,14 +40,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         httpSecurity
                 .cors().and()
-                .csrf()
-                    .disable()
+                .csrf() .disable()
                 .authorizeRequests()
-                    //Доступ только для не зарегистрированных пользователей
-                    .antMatchers("/registration").not().fullyAuthenticated()
-                    //Доступ разрешен всем пользователей
-                    .antMatchers("/", "/resources/**").permitAll()
+                .antMatchers("/login", "/board/**", "/boards", "/photo/**", "/photos/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
                 .and()
+                .formLogin()
+                .successHandler(successHandler())
+
+                .and()
+                .httpBasic();
+                    /*//Доступ только для не зарегистрированных пользователей
+                    .antMatchers("/registration").not().fullyAuthenticated()
+                    .and()
                 .authorizeRequests().antMatchers("/console/**").permitAll()//Все остальные страницы требуют аутентификации
                 .anyRequest().authenticated()
                 .and()
@@ -60,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .logout()
                     .permitAll()
-                    .logoutSuccessUrl("/")
+                    .logoutSuccessUrl("/")*/
         ;
     }
 
@@ -85,7 +93,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
                 System.out.println(user.toString());
-                httpServletResponse.getWriter().println(user);
             }
         };
     }
