@@ -17,4 +17,6 @@ public interface PhotoRepository extends JpaRepository<Photo, Long> {
     @Query("update Photo t set t.description = :description where t.id = :id")
     int updatePhoto(@Param("id") Long id, @Param("description") String description);
 
+    Photo findFirstByOrderByIdDesc();
+
 }
