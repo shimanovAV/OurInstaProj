@@ -54,6 +54,7 @@ public class PhotoService {
                 }
                 CloudBlockBlob blob = container.getBlockBlobReference(fileName);
                 blob.upload(is, length);
+                boardId = boardId.replaceAll("\"", "");
                 photoRepository.save(new Photo(null, Long.valueOf(boardId), null, blob.getUri().toString(), userService.findCurrentUser().getUsername()));
                 boardService.changeBoardPicture(Long.valueOf(boardId), blob.getUri().toString());
                 return blob.getUri().toString();
