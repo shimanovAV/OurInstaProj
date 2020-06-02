@@ -2,6 +2,7 @@ package com.bsu.ourInstaProj.service;
 
 import com.bsu.ourInstaProj.dao.PhotoRepository;
 import com.bsu.ourInstaProj.entity.Photo;
+import com.bsu.ourInstaProj.entity.response.PhotoVO;
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageException;
 import com.microsoft.azure.storage.blob.*;
@@ -31,7 +32,7 @@ public class PhotoService {
         return photoRepository.findAllByBoardId(boardId);
     }
 
-    public String addPhoto(MultipartFile newPhoto, String boardId) {
+    public PhotoVO addPhoto(MultipartFile newPhoto, String boardId, String description) {
         String accountName = "bsulab7shimanovichav";
         String accountKey = "3jL6HKnjuYs4p8sLbBtcyE6bYc92gRXfzcKzGRPeOuD5Zy7HYVHE7vprsHnv70EO6sQIB/MS7qhoJxQbFlaYIg==";
         try {
@@ -55,9 +56,10 @@ public class PhotoService {
                 CloudBlockBlob blob = container.getBlockBlobReference(fileName);
                 blob.upload(is, length);
                 boardId = boardId.replaceAll("\"", "");
-                photoRepository.save(new Photo(null, Long.valueOf(boardId), null, blob.getUri().toString(), userService.findCurrentUser().getUsername()));
+                Photo photo = new Photo(null, Long.valueOf(boardId), description, blob.getUri().toString(), userService.findCurrentUser().getUsername());
+                photoRepository.save(photo);
                 boardService.changeBoardPicture(Long.valueOf(boardId), blob.getUri().toString());
-                return blob.getUri().toString();
+                return new PhotoVO(photo.getId(), blob.getUri().toString());
             }
         } catch (InvalidKeyException | URISyntaxException | StorageException | IOException ex) {
             ex.printStackTrace();
