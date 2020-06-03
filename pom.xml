@@ -22,8 +22,8 @@
 		<azure.functions.maven.plugin.version>1.4.1</azure.functions.maven.plugin.version>
 
 		<!-- customize those two properties. The functionAppName should be unique across Azure -->
-		<functionResourceGroup>bsu-lab7</functionResourceGroup>
-		<functionAppName>photo-cut</functionAppName>
+		<functionResourceGroup>NetworkWatcherRG</functionResourceGroup>
+		<functionAppName>photoCut</functionAppName>
 
 		<functionAppRegion>westeurope</functionAppRegion>
 		<stagingDirectory>${project.build.directory}/azure-functions/${functionAppName}</stagingDirectory>
