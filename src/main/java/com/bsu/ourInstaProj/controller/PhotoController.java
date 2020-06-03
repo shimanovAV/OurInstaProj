@@ -2,6 +2,7 @@ package com.bsu.ourInstaProj.controller;
 
 import com.bsu.ourInstaProj.entity.Photo;
 import com.bsu.ourInstaProj.entity.response.PhotoResponse;
+import com.bsu.ourInstaProj.entity.response.PhotoVO;
 import com.bsu.ourInstaProj.service.PhotoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +35,8 @@ public class PhotoController {
     }
 
     @RequestMapping(path = {"/photo"}, method = RequestMethod.POST)
-    public ResponseEntity<String> addPhoto(@RequestParam("photo") MultipartFile newPhoto, @RequestParam("boardId") String boardId) {
-        String photoUrl =  photoService.addPhoto(newPhoto, boardId);
+    public ResponseEntity<PhotoVO> addPhoto(@RequestParam("photo") MultipartFile newPhoto, @RequestParam("boardId") String boardId, @RequestParam("description") String description) {
+        PhotoVO photoUrl =  photoService.addPhoto(newPhoto, boardId, description);
         return new ResponseEntity<>(photoUrl, HttpStatus.OK);
     }
 
