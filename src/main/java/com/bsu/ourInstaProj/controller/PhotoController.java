@@ -1,6 +1,7 @@
 package com.bsu.ourInstaProj.controller;
 
 import com.bsu.ourInstaProj.entity.Photo;
+import com.bsu.ourInstaProj.entity.request.PhotoRequest;
 import com.bsu.ourInstaProj.entity.response.PhotoResponse;
 import com.bsu.ourInstaProj.entity.response.PhotoVO;
 import com.bsu.ourInstaProj.service.PhotoService;
@@ -37,6 +38,12 @@ public class PhotoController {
     @RequestMapping(path = {"/photo"}, method = RequestMethod.POST)
     public ResponseEntity<PhotoVO> addPhoto(@RequestParam("photo") MultipartFile newPhoto, @RequestParam("boardId") String boardId, @RequestParam("description") String description) {
         PhotoVO photoUrl =  photoService.addPhoto(newPhoto, boardId, description);
+        return new ResponseEntity<>(photoUrl, HttpStatus.OK);
+    }
+
+    @RequestMapping(path = {"/photo_cut"}, method = RequestMethod.POST)
+    public ResponseEntity<PhotoVO> cutPhoto(@RequestBody PhotoRequest photoRequest) {
+        PhotoVO photoUrl =  new PhotoVO(photoRequest);
         return new ResponseEntity<>(photoUrl, HttpStatus.OK);
     }
 
