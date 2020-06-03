@@ -60,10 +60,10 @@ public class BoardController {
     }
 
     @RequestMapping(path = {"/board/{boardId}/user"}, method = RequestMethod.POST)
-    public ResponseEntity<BoardVO> addUserToBoard(final @PathVariable Long boardId,
+    public ResponseEntity<UserVO> addUserToBoard(final @PathVariable Long boardId,
                                                 @RequestBody String username) {
-        BoardVO board = boardService.addUserToBoard(boardId, username);
-        return new ResponseEntity<>(board, HttpStatus.OK);
+        UserVO user = boardService.addUserToBoard(boardId, username);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @RequestMapping(path = {"/board/{boardId}/user/{userId}"}, method = RequestMethod.DELETE)

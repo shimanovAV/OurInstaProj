@@ -62,7 +62,7 @@ public class UserService implements UserDetailsService {
         if (!login.isEmpty()) {
             return userRepository.findByUsername(login);
         } else {
-            return userRepository.findByUsername("aliko");
+            return userRepository.findByUsername("yulia");
         }
     }
 
