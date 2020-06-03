@@ -52,12 +52,13 @@ public class BoardService {
     }
 
     @Transactional
-    public BoardVO addUserToBoard(Long boardId, String username) {
+    public UserVO addUserToBoard(Long boardId, String username) {
         Board board = boardRepository.getBoardById(boardId);
         List<User> users = board.getUsers();
-        users.add(userRepository.findByUsername(username));
+        User user = userRepository.findByUsername(username);
+        users.add(user);
         board.setUsers(users);
-        return convertToVO(board);
+        return userService.convertToVO(user);
     }
 
     @Transactional
