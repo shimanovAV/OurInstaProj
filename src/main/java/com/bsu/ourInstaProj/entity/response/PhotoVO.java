@@ -45,6 +45,7 @@ public class PhotoVO {
             ImageIO.write(buffimage, "jpg", os);                          // Passing: ​(RenderedImage im, String formatName, OutputStream output)
             InputStream is = new ByteArrayInputStream(os.toByteArray());
             blob.upload(is, os.toByteArray().length);
+            this.url = url;
         }catch(InvalidKeyException | URISyntaxException | StorageException | IOException ex) {
             ex.printStackTrace();
         }

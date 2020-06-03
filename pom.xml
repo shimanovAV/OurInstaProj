@@ -245,7 +245,7 @@
 						</property>
 						<property>
 							<name>MAIN_CLASS</name>
-							<value>com.example.HelloFunction</value>
+							<value>com.bsu.ourInstaProj.OurInstaProjApplication</value>
 						</property>
 					</appSettings>
 				</configuration>
