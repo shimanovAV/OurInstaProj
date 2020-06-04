@@ -50,6 +50,7 @@ public class BoardService {
 
     public BoardVO addBoard(Board newBoard) {
         newBoard.setUserId(userService.findCurrentUser().getId());
+        addUserToBoard(newBoard.getId(), userService.findCurrentUser().getUsername());
         return convertToVO(boardRepository.save(newBoard));
     }
 
