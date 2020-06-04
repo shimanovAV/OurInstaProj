@@ -31,8 +31,10 @@ public class BoardService {
     @Transactional
     public List<BoardVO> getAllBoards() {
         User user = userService.findCurrentUser();
-        return boardRepository.findBoardsByUserId(user.getId()).stream()
-                .map(board -> convertToVO(board)).collect(Collectors.toList());
+        List<Board> boardsByUsers = boardRepository.findBoardsByUsers(user.getId());
+        List<Board> boardsByUserId = boardRepository.findBoardsByUserId(user.getId());
+        boardsByUserId.addAll(boardsByUsers);
+        return boardsByUserId.stream().map(board -> convertToVO(board)).collect(Collectors.toList());
     }
 
     @Transactional
