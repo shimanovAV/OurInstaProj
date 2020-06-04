@@ -46,6 +46,7 @@ public class BoardService {
                 .map(user -> userService.convertToVO(user)).collect(Collectors.toList());
     }
 
+    @Transactional
     public BoardVO addBoard(Board newBoard) {
         newBoard.setUserId(userService.findCurrentUser().getId());
         addUserToBoard(newBoard.getId(), userService.findCurrentUser().getUsername());
@@ -72,8 +73,9 @@ public class BoardService {
         return boardRepository.updateBoardPicture(boardId, newPictureUrl);
     }
 
+    @Transactional
     public void deleteBoard(Long boardId) {
-        boardRepository.deleteBoardById(boardId);
+        boardRepository.deleteById(boardId);
     }
 
     @Transactional
