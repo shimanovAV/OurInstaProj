@@ -17,6 +17,8 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     Board getBoardById(Long id);
 
+    void deleteBoardById(Long id);
+
     @Modifying
     @Query("update Board t set t.name = :name where t.id = :id")
     int updateBoard(@Param("id") Long id, @Param("name") String name);
