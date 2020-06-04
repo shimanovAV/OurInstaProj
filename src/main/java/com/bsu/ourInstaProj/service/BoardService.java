@@ -32,9 +32,7 @@ public class BoardService {
     public List<BoardVO> getAllBoards() {
         User user = userService.findCurrentUser();
         List<Board> boardsByUsers = boardRepository.findBoardsByUsers(user.getId());
-        List<Board> boardsByUserId = boardRepository.findBoardsByUserId(user.getId());
-        boardsByUserId.addAll(boardsByUsers);
-        return boardsByUserId.stream().map(board -> convertToVO(board)).collect(Collectors.toList());
+        return boardsByUsers.stream().map(board -> convertToVO(board)).collect(Collectors.toList());
     }
 
     @Transactional
@@ -50,6 +48,7 @@ public class BoardService {
 
     public BoardVO addBoard(Board newBoard) {
         newBoard.setUserId(userService.findCurrentUser().getId());
+        addUserToBoard(newBoard.getId(), userService.findCurrentUser().getUsername());
         return convertToVO(boardRepository.save(newBoard));
     }
 
@@ -74,7 +73,7 @@ public class BoardService {
     }
 
     public void deleteBoard(Long boardId) {
-        boardRepository.deleteById(boardId);
+        boardRepository.deleteBoardById(boardId);
     }
 
     @Transactional
